@@ -18,37 +18,38 @@ std::string infx2pstfx(const std::string& inf) {
   std::string post;
 
   for (size_t i = 0; i < inf.size(); ++i) {
-    char ch = inf[i];
+    char c = inf[i];
 
-    if (ch == ' ') {
+    if (c == ' ') {
       continue;
     }
 
-    if (std::isdigit(ch)) {
+    if (std::isdigit(c)) {
       while (i < inf.size() && std::isdigit(inf[i])) {
         post += inf[i];
         ++i;
       }
       post += ' ';
       --i;
-    } else if (ch == '(') {
-      stack.push(ch);
-    } else if (ch == ')') {
+    } else if (c == '(') {
+      stack.push(c);
+    } else if (c == ')') {
       while (!stack.isEmpty() && stack.top() != '(') {
         post += stack.top();
         post += ' ';
         stack.pop();
       }
+      stack.pop();  // удаляем '('
       stack.pop();
-    } else if (is_operator(ch)) {
+    } else if (is_operator(c)) {
       while (!stack.isEmpty() &&
              is_operator(stack.top()) &&
-             priority(stack.top()) >= priority(ch)) {
+             priority(stack.top()) >= priority(c)) {
         post += stack.top();
         post += ' ';
         stack.pop();
       }
-      stack.push(ch);
+      stack.push(c);
     }
   }
 
@@ -69,13 +70,13 @@ int eval(const std::string& post) {
   TStack<int, 100> stack;
 
   for (size_t i = 0; i < post.size(); ++i) {
-    char ch = post[i];
+    char c = post[i];
 
-    if (ch == ' ') {
+    if (c == ' ') {
       continue;
     }
 
-    if (std::isdigit(ch)) {
+    if (std::isdigit(c)) {
       int num = 0;
 
       while (i < post.size() && std::isdigit(post[i])) {
@@ -85,7 +86,7 @@ int eval(const std::string& post) {
 
       stack.push(num);
       --i;
-    } else if (is_operator(ch)) {
+    } else if (is_operator(c)) {
       int b = stack.top();
       stack.pop();
 
@@ -94,7 +95,7 @@ int eval(const std::string& post) {
 
       int result = 0;
 
-      switch (ch) {
+      switch (c) {
         case '+':
           result = a + b;
           break;
