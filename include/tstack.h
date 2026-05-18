@@ -4,7 +4,11 @@
 
 template<typename T, int size>
 class TStack {
-  // добавьте код стека
+public:
+    void push_back(T val);
+    void pop_back();
+    T peek();
+    bool empty();
 };
 
 #endif  // INCLUDE_TSTACK_H_
