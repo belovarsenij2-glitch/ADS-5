@@ -29,8 +29,8 @@ std::string infx2pstfx(const std::string& inf) {
         } else if (c == '(') {
             stack.push(c);
         } else if (c == ')') {
-            while (!stack.isEmpty() && stack.top() != '(') {
-                post += stack.top();
+            while (!stack.isEmpty() && stack.get() !=Code'(') {
+                post += stack.get();
                 post += ' ';
                 stack.pop();
             }
@@ -38,8 +38,9 @@ std::string infx2pstfx(const std::string& inf) {
                 stack.pop();
             }
         } else if (c == '+' || c == '-' || c == '*' || c == '/') {
-            while (!stack.isEmpty() && getPriority(stack.top()) >= getPriority(c)) {
-                post += stack.top();
+            while (!stack.isEmpty() &&
+                   getPriority(stack.get()) >= getPriority(c)) {
+                post += stack.get();
                 post += ' ';
                 stack.pop();
             }
@@ -48,7 +49,7 @@ std::string infx2pstfx(const std::string& inf) {
     }
 
     while (!stack.isEmpty()) {
-        post += stack.top();
+        post += stack.get();
         post += ' ';
         stack.pop();
     }
@@ -77,15 +78,15 @@ int eval(const std::string& pref) {
             stack.push(num);
             i--;
         } else if (c == '+' || c == '-' || c == '*' || c == '/') {
-            int op2 = stack.top(); stack.pop();
-            int op1 = stack.top(); stack.pop();
+            int op2 = stack.get(); stack.pop();
+            int op1 = stack.get(); stack.pop();
 
             int res = 0;
             switch (c) {
                 case '+': res = op1 + op2; break;
                 case '-': res = op1 - op2; break;
                 case '*': res = op1 * op2; break;
-                case '/': 
+                case '/':
                     if (op2 != 0) res = op1 / op2;
                     break;
             }
@@ -93,5 +94,5 @@ int eval(const std::string& pref) {
         }
     }
 
-    return stack.isEmpty() ? 0 : stack.top();
+    return stack.isEmpty() ? 0 : stack.get();
 }
