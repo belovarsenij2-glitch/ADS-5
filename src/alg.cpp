@@ -29,7 +29,7 @@ std::string infx2pstfx(const std::string& inf) {
         } else if (c == '(') {
             stack.push(c);
         } else if (c == ')') {
-            while (!stack.isEmpty() && stack.get() !=Code'(') {
+            while (!stack.isEmpty() && stack.get() != '(') {
                 post += stack.get();
                 post += ' ';
                 stack.pop();
